@@ -273,122 +273,48 @@ class Game{
         
         // Move Pacman
 
-        document.addEventListener("keydown", function(event){
-            switch (event.key) {
-                case "ArrowLeft":
-                    const canGoLeft = (wall) => CollisionWall(wall, this.pacman, 'left');
-                    if (this.walls.every(canGoLeft)){
-                        if (this.pacman.offsetLeft === 0){
-                            this.pacman.style.left = `${560 - this.pacman.offsetWidth + 10}px`;
-                        }
-                        this.pacman.style.left = `${this.pacman.offsetLeft - 10}px`;
-                    }
-                    break;
-                case "ArrowRight":
-                    const canGoRight = (wall) => CollisionWall(wall, this.pacman, 'right');
-                    if (this.walls.every(canGoRight)){
-                        if (this.pacman.offsetLeft + this.pacman.offsetWidth === 560){
-                            this.pacman.style.left = `-10px`;
-                        }
-                        this.pacman.style.left = `${this.pacman.offsetLeft + 10}px`;
-                    }
-                    break;
-                case "ArrowUp":
-                    const canGoUp = (wall) => CollisionWall(wall, this.pacman, 'up');
-                    if (this.walls.every(canGoUp)){
-                        this.pacman.style.top = `${this.pacman.offsetTop - 10}px`;
-                    }
-                    break;  
-                case "ArrowDown":
-                    const canGoDown = (wall) => CollisionWall(wall, this.pacman, 'down');
-                    if (this.walls.every(canGoDown)){
-                        this.pacman.style.top = `${this.pacman.offsetTop + 10}px`;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        });
-    }
-}
-
-// Create walls
-class Wall{
-    constructor(x, y, width, height){
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-    }
-
-    render(){
-        let $wall = document.createElement("span");
-        $wall.setAttribute("class", "wall");
-        $gameboard.appendChild($wall);
-        $wall.style.position = 'absolute';
-        $wall.style.left = `${this.x}px`;
-        $wall.style.top = `${this.y}px`;
-        $wall.style.width = `${this.width-4}px`;
-        $wall.style.height = `${this.height-4}px`;
-    }
-}
-
-// Create pacman
-class Pacman{
-    render(){
-        let $pacman = document.createElement("div");
-        $pacman.setAttribute("class", "pacman");
-        $pacman.style.position = "absolute";
-        $pacman.style.left = "260px";
-        $pacman.style.top = "450px";
-        $gameboard.appendChild($pacman);
-      
-        // // Move Pacman
-        // let walls = document.querySelectorAll(".wall");
-        // let wallsArray = [...walls];
         // document.addEventListener("keydown", function(event){
         //     switch (event.key) {
         //         case "ArrowLeft":
-        //             const canGoLeft = (wall) => CollisionWall(wall, $pacman, 'left');
-        //             if (wallsArray.every(canGoLeft)){
-        //                 if ($pacman.offsetLeft === 0){
-        //                     $pacman.style.left = `${560 - $pacman.offsetWidth + 10}px`;
+        //             const canGoLeft = (wall) => CollisionWall(wall, this.pacman, 'left');
+        //             if (this.walls.every(canGoLeft)){
+        //                 if (this.pacman.offsetLeft === 0){
+        //                     this.pacman.style.left = `${560 - this.pacman.offsetWidth + 10}px`;
         //                 }
-        //                 $pacman.style.left = `${$pacman.offsetLeft - 10}px`;
+        //                 this.pacman.style.left = `${this.pacman.offsetLeft - 10}px`;
         //             }
         //             break;
         //         case "ArrowRight":
-        //             const canGoRight = (wall) => CollisionWall(wall, $pacman, 'right');
-        //             if (wallsArray.every(canGoRight)){
-        //                 if ($pacman.offsetLeft + $pacman.offsetWidth === 560){
-        //                     $pacman.style.left = `-10px`;
+        //             const canGoRight = (wall) => CollisionWall(wall, this.pacman, 'right');
+        //             if (this.walls.every(canGoRight)){
+        //                 if (this.pacman.offsetLeft + this.pacman.offsetWidth === 560){
+        //                     this.pacman.style.left = `-10px`;
         //                 }
-        //                 $pacman.style.left = `${$pacman.offsetLeft + 10}px`;
+        //                 this.pacman.style.left = `${this.pacman.offsetLeft + 10}px`;
         //             }
         //             break;
         //         case "ArrowUp":
-        //             const canGoUp = (wall) => CollisionWall(wall, $pacman, 'up');
-        //             if (wallsArray.every(canGoUp)){
-        //                 $pacman.style.top = `${$pacman.offsetTop - 10}px`;
+        //             const canGoUp = (wall) => CollisionWall(wall, this.pacman, 'up');
+        //             if (this.walls.every(canGoUp)){
+        //                 this.pacman.style.top = `${this.pacman.offsetTop - 10}px`;
         //             }
         //             break;  
         //         case "ArrowDown":
-        //             const canGoDown = (wall) => CollisionWall(wall, $pacman, 'down');
-        //             if (wallsArray.every(canGoDown)){
-        //                 $pacman.style.top = `${$pacman.offsetTop + 10}px`;
+        //             const canGoDown = (wall) => CollisionWall(wall, this.pacman, 'down');
+        //             if (this.walls.every(canGoDown)){
+        //                 this.pacman.style.top = `${this.pacman.offsetTop + 10}px`;
         //             }
         //             break;
         //         default:
         //             break;
         //     }
         // });
-
-        // Eat coins
-        let coins = document.querySelectorAll(".coin");
-        let coinsArray = [...coins];
-
     }
 }
+
+
+
+
 
 // Hit wall
 function CollisionWall($dom1,$dom2, direction){
@@ -432,32 +358,5 @@ function CollisionWall($dom1,$dom2, direction){
     }
 }
 
-// Create coins
-class Coin{
-    constructor(x, y){
-        this.x = x;
-        this.y = y;
-    }
 
-    render(){
-        let $coin = document.createElement("span");
-        $coin.setAttribute("class", "coin");
-        $gameboard.appendChild($coin);
-        $coin.style.position = 'absolute';
-        $coin.style.left = `${this.x}px`;
-        $coin.style.top = `${this.y}px`;
-    }
-}
 
-class Score{
-    render(){
-        let $scorename = document.createElement("div");
-        $scorename.innerHTML = 'SCORE';
-        $scorename.setAttribute("class", "score-name");
-        $gameboard.appendChild($scorename);
-        let $score = document.createElement("span");
-        $score.innerHTML = '0';
-        $score.setAttribute("class", "score");
-        $scorename.appendChild($score);
-    }
-}
