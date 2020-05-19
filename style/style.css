@@ -13,12 +13,11 @@
 .pacman{
     background-color: yellow;
     border-radius: 50% 50%;
-    border: 5px solid black;
+    /* border: 5px solid black; */
+    z-index: 1;
 }
 
 .coin{
-    width: 4px;
-    height: 4px;
     background-color: pink;
 }
 

@@ -21,7 +21,7 @@ class Game{
         this.createWalls();
         this.walls.forEach(wall => wall.render());
         this.createCoins();
-        this.coins.forEach(coin => coin.render());
+        this.coins.forEach(coin => coin.createCoins());
         this.movePacman();
         this.score.render();
     }
@@ -275,31 +275,35 @@ class Game{
                 case "ArrowLeft":
                     const canGoLeft = (wall) => CollisionWall(wall, fixThis.pacman, 'left');
                     if (fixThis.walls.every(canGoLeft)){
-                        if (fixThis.pacman.x === 0){
-                            fixThis.pacman.x = 560 - fixThis.pacman.width + 10;
+                        if (fixThis.pacman.x - 5 === 0){
+                            fixThis.pacman.x = 560 - fixThis.pacman.width + 5;
                         }
                         fixThis.pacman.x -= 10;
+                        fixThis.eatCoins();
                     }
                     break;
                 case "ArrowRight":
                     const canGoRight = (wall) => CollisionWall(wall, fixThis.pacman, 'right');
                     if (fixThis.walls.every(canGoRight)){
-                        if (fixThis.pacman.x + fixThis.pacman.width === 560){
-                            fixThis.pacman.x = -10;
+                        if (fixThis.pacman.x + fixThis.pacman.width + 5 === 560){
+                            fixThis.pacman.x = -5;
                         }
                         fixThis.pacman.x += 10;
+                        fixThis.eatCoins();
                     }
                     break;
                 case "ArrowUp":
                     const canGoUp = (wall) => CollisionWall(wall, fixThis.pacman, 'up');
                     if (fixThis.walls.every(canGoUp)){
                         fixThis.pacman.y -= 10;
+                        fixThis.eatCoins();
                     }
                     break;  
                 case "ArrowDown":
                     const canGoDown = (wall) => CollisionWall(wall, fixThis.pacman, 'down');
                     if (fixThis.walls.every(canGoDown)){
                         fixThis.pacman.y += 10;
+                        fixThis.eatCoins();
                     }
                     break;
                 default:
@@ -310,21 +314,22 @@ class Game{
         
     }
 
-    // eatCoins(){
-    //     let coins = document.querySelectorAll(".coin");
-    //     let coinsArray = [...coins];
-    //     let score = document.querySelector(".score");
-    //     for (let i=0; i<coins.length; i++){
-    //         if(eatCoins($pacman, coins[i])){
-    //             coins.splice(i, 1);
-    //         }
-    //     }
-    // }
+    eatCoins(){
+        let $coins = document.querySelectorAll(".coin");
+        console.log(this.coins);
+        for (let i=0; i<this.coins.length; i++){
+            if(eatCoins(this.pacman, this.coins[i])){
+                $coins.item(i).remove();
+                this.coins.splice(i, 1);
+                break;
+            }
+        }
+    }
     
 }
 
 
-// Hit wall
+// Stop when encounter wall
 function CollisionWall($dom1,$dom2, direction){
     let el1 = {
         x: $dom1.x,
@@ -334,10 +339,11 @@ function CollisionWall($dom1,$dom2, direction){
     }
     
     let el2 = {
-        x:$dom2.x,
-        y:$dom2.y,
-        width:$dom2.width,
-        height:$dom2.height
+        x:$dom2.x-5,
+        y:$dom2.y-5,
+        // + 10 is to compensate the border of pacman
+        width:$dom2.width + 10,
+        height:$dom2.height + 10
     }
   
     switch(direction){
@@ -366,5 +372,28 @@ function CollisionWall($dom1,$dom2, direction){
     }
 }
 
-
-
+// Define the collision with a coin
+function eatCoins($dom1,$dom2){
+    let el1 = {
+        x: $dom1.x,
+        y: $dom1.y,
+        width: $dom1.width,
+        height: $dom1.height
+    }
+    
+    let el2 = {
+        x:$dom2.x,
+        y:$dom2.y,
+        width:$dom2.width,
+        height:$dom2.height
+    }
+    
+    if(!(el2.y + el2.height < el1.y || 
+      el2.y > el1.y + el1.height ||
+      el2.x + el2.width < el1.x ||
+      el2.x > el1.x + el1.width)) {
+        return true;
+    } else {
+        return false;
+    }
+  }
