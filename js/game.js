@@ -4,7 +4,7 @@ window.addEventListener ('load', () => {
   });
 
 
-let $gameboard =  document.getElementById("pacman");
+let $gameboard =  document.getElementById("game");
 
 
 
@@ -271,8 +271,6 @@ class Game{
     movePacman(){
         this.pacman.render();
         let fixThis = this;
-        // Move Pacman
-
         document.addEventListener("keydown", function(event){
             switch (event.key) {
                 case "ArrowLeft":
@@ -296,25 +294,35 @@ class Game{
                 case "ArrowUp":
                     const canGoUp = (wall) => CollisionWall(wall, fixThis.pacman, 'up');
                     if (fixThis.walls.every(canGoUp)){
-                        fixThis.pacman.y = fixThis.pacman.height - 10;
+                        fixThis.pacman.y -= 10;
                     }
                     break;  
                 case "ArrowDown":
                     const canGoDown = (wall) => CollisionWall(wall, fixThis.pacman, 'down');
                     if (fixThis.walls.every(canGoDown)){
-                        fixThis.pacman.y = fixThis.pacman.height + 10;
+                        fixThis.pacman.y += 10;
                     }
                     break;
                 default:
                     break;
             }
+            
         });
         
     }
+
+    // eatCoins(){
+    //     let coins = document.querySelectorAll(".coin");
+    //     let coinsArray = [...coins];
+    //     let score = document.querySelector(".score");
+    //     for (let i=0; i<coins.length; i++){
+    //         if(eatCoins($pacman, coins[i])){
+    //             coins.splice(i, 1);
+    //         }
+    //     }
+    // }
+    
 }
-
-
-
 
 
 // Hit wall

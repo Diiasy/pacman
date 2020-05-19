@@ -56,16 +56,6 @@ class Pacman{
         //     }
         // });
 
-        // // Eat coins
-        // let coins = document.querySelectorAll(".coin");
-        // let coinsArray = [...coins];
-        // let score = document.querySelector(".score");
-        // for (let i=0; i<coins.length; i++){
-        //     if(eatCoins($pacman, coins[i])){
-        //         coins.splice(i, 1);
-        //     }
-        // }
-
     }
 }
 
