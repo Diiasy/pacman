@@ -1,0 +1,43 @@
+#pacman{
+    position: relative;
+    width: 560px;
+    height: 680px;
+    background-color: black;
+}
+
+.wall{
+    border: 2px solid blue;
+    border-radius: 10%;
+}
+
+.pacman{
+    width: 30px;
+    height: 30px;
+    background-color: yellow;
+    border-radius: 50% 50%;
+    border: 5px solid black;
+}
+
+.coin{
+    width: 4px;
+    height: 4px;
+    background-color: pink;
+}
+
+.score-name{
+    color: white;
+    font-size: 20px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    position: absolute;
+    left:20px;
+    top: 630px;
+}
+
+.score{
+    color: white;
+    font-size: 20px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    position: absolute;
+    left:0px;
+    top: 20px;
+}
