@@ -269,7 +269,6 @@ class Game{
     }
 
     movePacman(){
-        this.pacman.render();
         let fixThis = this;
         document.addEventListener("keydown", function(event){
             switch (event.key) {
@@ -288,7 +287,7 @@ class Game{
                         if (fixThis.pacman.x + fixThis.pacman.width === 560){
                             fixThis.pacman.x = -10;
                         }
-                        fixThis.pacman.x += + 10;
+                        fixThis.pacman.x += 10;
                     }
                     break;
                 case "ArrowUp":
@@ -306,7 +305,7 @@ class Game{
                 default:
                     break;
             }
-            
+            fixThis.pacman.render();
         });
         
     }
