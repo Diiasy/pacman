@@ -7,13 +7,13 @@
 
 .wall{
     border: 2px solid blue;
+    color: blue;
     border-radius: 10%;
 }
 
 .pacman{
     background-color: yellow;
     border-radius: 50% 50%;
-    /* border: 5px solid black; */
     z-index: 1;
 }
 
