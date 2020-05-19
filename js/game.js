@@ -270,45 +270,46 @@ class Game{
 
     movePacman(){
         this.pacman.render();
-        
+        let fixThis = this;
         // Move Pacman
 
-        // document.addEventListener("keydown", function(event){
-        //     switch (event.key) {
-        //         case "ArrowLeft":
-        //             const canGoLeft = (wall) => CollisionWall(wall, this.pacman, 'left');
-        //             if (this.walls.every(canGoLeft)){
-        //                 if (this.pacman.offsetLeft === 0){
-        //                     this.pacman.style.left = `${560 - this.pacman.offsetWidth + 10}px`;
-        //                 }
-        //                 this.pacman.style.left = `${this.pacman.offsetLeft - 10}px`;
-        //             }
-        //             break;
-        //         case "ArrowRight":
-        //             const canGoRight = (wall) => CollisionWall(wall, this.pacman, 'right');
-        //             if (this.walls.every(canGoRight)){
-        //                 if (this.pacman.offsetLeft + this.pacman.offsetWidth === 560){
-        //                     this.pacman.style.left = `-10px`;
-        //                 }
-        //                 this.pacman.style.left = `${this.pacman.offsetLeft + 10}px`;
-        //             }
-        //             break;
-        //         case "ArrowUp":
-        //             const canGoUp = (wall) => CollisionWall(wall, this.pacman, 'up');
-        //             if (this.walls.every(canGoUp)){
-        //                 this.pacman.style.top = `${this.pacman.offsetTop - 10}px`;
-        //             }
-        //             break;  
-        //         case "ArrowDown":
-        //             const canGoDown = (wall) => CollisionWall(wall, this.pacman, 'down');
-        //             if (this.walls.every(canGoDown)){
-        //                 this.pacman.style.top = `${this.pacman.offsetTop + 10}px`;
-        //             }
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        // });
+        document.addEventListener("keydown", function(event){
+            switch (event.key) {
+                case "ArrowLeft":
+                    const canGoLeft = (wall) => CollisionWall(wall, fixThis.pacman, 'left');
+                    if (fixThis.walls.every(canGoLeft)){
+                        if (fixThis.pacman.x === 0){
+                            fixThis.pacman.x = 560 - fixThis.pacman.width + 10;
+                        }
+                        fixThis.pacman.x -= 10;
+                    }
+                    break;
+                case "ArrowRight":
+                    const canGoRight = (wall) => CollisionWall(wall, fixThis.pacman, 'right');
+                    if (fixThis.walls.every(canGoRight)){
+                        if (fixThis.pacman.x + fixThis.pacman.width === 560){
+                            fixThis.pacman.x = -10;
+                        }
+                        fixThis.pacman.x += + 10;
+                    }
+                    break;
+                case "ArrowUp":
+                    const canGoUp = (wall) => CollisionWall(wall, fixThis.pacman, 'up');
+                    if (fixThis.walls.every(canGoUp)){
+                        fixThis.pacman.y = fixThis.pacman.height - 10;
+                    }
+                    break;  
+                case "ArrowDown":
+                    const canGoDown = (wall) => CollisionWall(wall, fixThis.pacman, 'down');
+                    if (fixThis.walls.every(canGoDown)){
+                        fixThis.pacman.y = fixThis.pacman.height + 10;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
+        
     }
 }
 
@@ -319,17 +320,17 @@ class Game{
 // Hit wall
 function CollisionWall($dom1,$dom2, direction){
     let el1 = {
-        x: $dom1.offsetLeft,
-        y: $dom1.offsetTop,
-        width: $dom1.offsetWidth,
-        height: $dom1.offsetHeight
+        x: $dom1.x,
+        y: $dom1.y,
+        width: $dom1.width,
+        height: $dom1.height
     }
     
     let el2 = {
-        x:$dom2.offsetLeft,
-        y:$dom2.offsetTop,
-        width:$dom2.offsetWidth,
-        height:$dom2.offsetHeight
+        x:$dom2.x,
+        y:$dom2.y,
+        width:$dom2.width,
+        height:$dom2.height
     }
   
     switch(direction){

@@ -11,8 +11,6 @@
 }
 
 .pacman{
-    width: 30px;
-    height: 30px;
     background-color: yellow;
     border-radius: 50% 50%;
     border: 5px solid black;
