@@ -3,10 +3,7 @@ window.addEventListener ('load', () => {
     game.start();
   });
 
-
 let $gameboard =  document.getElementById("game");
-
-
 
 // Create maze/game
 class Game{
@@ -15,15 +12,40 @@ class Game{
         this.coins = [];
         this.pacman = new Pacman();
         this.score = new Score();
+        this.blinky = new Ghost('blinky');
+        this.pinky = new Ghost('pinky');
+        this.inky = new Ghost('inky');
+        this.clyde = new Ghost('clyde');
     }
 
     start(){
+        // Gather all walls in a div
+        let $walls = document.createElement("div");
+        $walls.setAttribute("class", "walls");
+        $gameboard.appendChild($walls);
         this.createWalls();
         this.walls.forEach(wall => wall.render());
+        // Gather all coins in a div
+        let $coins = document.createElement("div");
+        $coins.setAttribute("class", "coins");
+        $gameboard.appendChild($coins);
         this.createCoins();
         this.coins.forEach(coin => coin.createCoins());
+
         this.movePacman();
         this.score.createScore();
+        this.blinky.moveGhost('blinky');
+        setTimeout(()=>{
+            this.pinky.moveGhost('pinky');
+        },1000);
+        setTimeout(()=>{
+            this.inky.moveGhost('inky');
+        },2000);
+        setTimeout(()=>{
+            this.clyde.moveGhost('clyde');
+        },3000);
+        
+        
     }
 
     createWalls(){
@@ -273,17 +295,19 @@ class Game{
         document.addEventListener("keydown", function(event){
             switch (event.key) {
                 case "ArrowLeft":
-                    const canGoLeft = (wall) => CollisionWall(wall, fixThis.pacman, 'left');
+                    fixThis.pacman.direction = 'W';
+                    const canGoLeft = (wall) => CollisionWallPacman(wall, fixThis.pacman, 'left');
                     if (fixThis.walls.every(canGoLeft)){
-                        if (fixThis.pacman.x - 5 === 0){
-                            fixThis.pacman.x = 560 - fixThis.pacman.width + 5;
-                        }
-                        fixThis.pacman.x -= 10;
-                        fixThis.eatCoins();
+                    if (fixThis.pacman.x - 5 === 0){
+                        fixThis.pacman.x = 560 - fixThis.pacman.width + 5;
+                    }
+                    fixThis.pacman.x -= 10;
+                    fixThis.eatCoins();
                     }
                     break;
                 case "ArrowRight":
-                    const canGoRight = (wall) => CollisionWall(wall, fixThis.pacman, 'right');
+                    fixThis.pacman.direction = 'E';
+                    const canGoRight = (wall) => CollisionWallPacman(wall, fixThis.pacman, 'right');
                     if (fixThis.walls.every(canGoRight)){
                         if (fixThis.pacman.x + fixThis.pacman.width + 5 === 560){
                             fixThis.pacman.x = -5;
@@ -293,14 +317,16 @@ class Game{
                     }
                     break;
                 case "ArrowUp":
-                    const canGoUp = (wall) => CollisionWall(wall, fixThis.pacman, 'up');
+                    fixThis.pacman.direction = 'N';
+                    const canGoUp = (wall) => CollisionWallPacman(wall, fixThis.pacman, 'up');
                     if (fixThis.walls.every(canGoUp)){
                         fixThis.pacman.y -= 10;
                         fixThis.eatCoins();
                     }
                     break;  
                 case "ArrowDown":
-                    const canGoDown = (wall) => CollisionWall(wall, fixThis.pacman, 'down');
+                    fixThis.pacman.direction = 'S';
+                    const canGoDown = (wall) => CollisionWallPacman(wall, fixThis.pacman, 'down');
                     if (fixThis.walls.every(canGoDown)){
                         fixThis.pacman.y += 10;
                         fixThis.eatCoins();
@@ -327,7 +353,38 @@ class Game{
             }
         }
     }
+
+    // moveGhost(ghost, name){
+    //     let fixThis = this;
+    
+    //     let intervalId = setInterval(()=>{
+    //         ghost.x -= 15;
+    //         console.log(ghost.x);
+    //         const canGoLeft = (wall) => CollisionWall(wall, ghost, 'left');
+    //         if (fixThis.walls.every(canGoLeft)){
+    //             console.log('the end');
+    //             clearInterval(intervalId);
+    //         }
+    //     },100);
+    //     console.log(ghost.x);
+
+
+        // let timeInit = new Date();
+        // function move(){
+        //     if (fixThis.walls.every(canGoLeft)){
+        //         // if (ghost.x - 5 === 0){
+        //         //     ghost.x = 560 - ghost.width + 5;
+        //         // }
+        //         let timeInSec = Math.floor((new Date() - timeInit)/1000);
+        //         console.log(timeInSec);
+        //         ghost.x -= timeInSec * 10; // doesn't work because ghost.x never equal to wall.x so the if statement is never false
+        //         requestAnimationFrame(move);
+        //     }
+        // }
+        // move();
+        // ghost.render(name);
+        
+        
+    // }
     
 }
-
-

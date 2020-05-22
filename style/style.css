@@ -3,6 +3,7 @@
     width: 560px;
     height: 680px;
     background-color: black;
+    z-index: -2;
 }
 
 .wall{
@@ -11,14 +12,9 @@
     border-radius: 10%;
 }
 
-.pacman{
-    background-color: yellow;
-    border-radius: 50% 50%;
-    z-index: 1;
-}
-
 .coin{
     background-color: pink;
+    z-index: -1;
 }
 
 .score-name{

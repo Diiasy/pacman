@@ -8,9 +8,10 @@ class Coin{
     }
 
     createCoins(){
+        let $coins = document.querySelector(".coins");
         let $coin = document.createElement("span");
         $coin.setAttribute("class", "coin");
-        $gameboard.appendChild($coin);
+        $coins.appendChild($coin);
         $coin.style.position = 'absolute';
         $coin.style.left = `${this.x}px`;
         $coin.style.top = `${this.y}px`;

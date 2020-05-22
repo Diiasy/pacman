@@ -8,9 +8,10 @@ class Wall{
     }
 
     render(){
+        let $walls = document.querySelector(".walls");
         let $wall = document.createElement("span");
         $wall.setAttribute("class", "wall");
-        $gameboard.appendChild($wall);
+        $walls.appendChild($wall);
         $wall.style.position = 'absolute';
         $wall.style.left = `${this.x}px`;
         $wall.style.top = `${this.y}px`;
