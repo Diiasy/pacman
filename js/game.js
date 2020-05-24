@@ -1,6 +1,11 @@
 window.addEventListener ('load', () => {
     let game = new Game();
     game.start();
+    document.addEventListener("keydown", function(event){
+        if(event.key === 'Enter'){
+            game.startPlay();
+        }
+    });
   });
 
 let $gameboard =  document.getElementById("game");
@@ -19,6 +24,7 @@ class Game{
     }
 
     start(){
+        this.welcomeMessage();
         // Gather all walls in a div
         let $walls = document.createElement("div");
         $walls.setAttribute("class", "walls");
@@ -31,21 +37,31 @@ class Game{
         $gameboard.appendChild($coins);
         this.createCoins();
         this.coins.forEach(coin => coin.createCoins());
+    }
 
-        this.movePacman();
-        this.score.createScore();
-        this.blinky.moveGhost('blinky');
+    startPlay(){
+        this.intro();
         setTimeout(()=>{
-            this.pinky.moveGhost('pinky');
-        },1000);
-        setTimeout(()=>{
-            this.inky.moveGhost('inky');
-        },2000);
-        setTimeout(()=>{
-            this.clyde.moveGhost('clyde');
-        },3000);
-        
-        
+            this.movePacman();
+            this.score.createScore();
+            //Movement of the ghosts 
+            this.blinky.moveGhost('blinky');
+            setTimeout(()=>{
+                this.pinky.moveGhost('pinky');
+            },1000);
+            setTimeout(()=>{
+                this.inky.moveGhost('inky');
+            },2000);
+            setTimeout(()=>{
+                this.clyde.moveGhost('clyde');
+            },3000);
+            let sirenInterval = setInterval(()=>{
+                this.siren();
+                if (this.blinky.gameOver.stopGame === true || this.pinky.gameOver.stopGame === true || this.inky.gameOver.stopGame === true || this.clyde.gameOver.stopGame === true){
+                    clearInterval(sirenInterval);
+                }
+            },1600);
+        }, 4000)        
     }
 
     createWalls(){
@@ -290,19 +306,64 @@ class Game{
         }
     }
 
+    welcomeMessage(){
+        let $welcome = document.createElement('div');
+        $welcome.classList.add('welcome');
+        $welcome.innerHTML = 'Welcome! </br> To start a game press Enter';
+        $gameboard.appendChild($welcome);
+    }
+
+    intro(){
+        let $welcome = document.querySelector('.welcome');
+        $welcome.style.visibility = 'hidden';
+        let introSound = new Sound("./audio/opening_song.ogg");
+        introSound.play();
+        let $ready = document.createElement('div');
+        $ready.classList.add('text', 'ready');
+        $ready.innerHTML = 'READY!';
+        $gameboard.appendChild($ready);
+        setTimeout(()=>{
+            $gameboard.removeChild($ready);
+        }, 4001);
+    }
+
+    siren(){
+        let siren = new Sound("./audio/siren.ogg");
+        siren.volume(0.2);
+        siren.play();
+
+    }
+
     movePacman(){
         let fixThis = this;
+        // function moveLeft(){
+        //     if (fixThis.pacman.direction === 'W'){
+        //         let intervalW = setInterval(()=>{
+        //             const canGoLeft = (wall) => CollisionWallPacman(wall, fixThis.pacman, 'left');
+        //             if (fixThis.walls.every(canGoLeft)){
+        //                 if (fixThis.pacman.x - 5 === 0){
+        //                     fixThis.pacman.x = 560 - fixThis.pacman.width + 5;
+        //                 }
+        //                 fixThis.pacman.x -= 1;
+        //                 fixThis.eatCoins();
+        //             }else{
+        //                 clearInterval(intervalW);
+        //             }
+        //         },23);
+        //     }
+        // }
         document.addEventListener("keydown", function(event){
             switch (event.key) {
                 case "ArrowLeft":
                     fixThis.pacman.direction = 'W';
+                    // moveLeft();
                     const canGoLeft = (wall) => CollisionWallPacman(wall, fixThis.pacman, 'left');
                     if (fixThis.walls.every(canGoLeft)){
-                    if (fixThis.pacman.x - 5 === 0){
-                        fixThis.pacman.x = 560 - fixThis.pacman.width + 5;
-                    }
-                    fixThis.pacman.x -= 10;
-                    fixThis.eatCoins();
+                        if (fixThis.pacman.x - 5 === 0){
+                            fixThis.pacman.x = 560 - fixThis.pacman.width + 5;
+                        }
+                        fixThis.pacman.x -= 10;
+                        fixThis.eatCoins();
                     }
                     break;
                 case "ArrowRight":
@@ -337,54 +398,23 @@ class Game{
             }
             fixThis.pacman.render();
         });
-        
     }
 
     eatCoins(){
         let $coins = document.querySelectorAll(".coin");
+        let chomp = new Sound("./audio/eating.ogg");
         for (let i=0; i<this.coins.length; i++){
             if(eatCoins(this.pacman, this.coins[i])){
                 $coins.item(i).remove();
                 this.coins.splice(i, 1);
                 // this.score is an object from the class Score. We are searching for the key score from this object
                 this.score.score += 10;
+                chomp.volume(0.8);
+                chomp.play();
                 this.score.render();
                 break;
             }
         }
     }
 
-    // moveGhost(ghost, name){
-    //     let fixThis = this;
-    
-    //     let intervalId = setInterval(()=>{
-    //         ghost.x -= 15;
-    //         console.log(ghost.x);
-    //         const canGoLeft = (wall) => CollisionWall(wall, ghost, 'left');
-    //         if (fixThis.walls.every(canGoLeft)){
-    //             console.log('the end');
-    //             clearInterval(intervalId);
-    //         }
-    //     },100);
-    //     console.log(ghost.x);
-
-
-        // let timeInit = new Date();
-        // function move(){
-        //     if (fixThis.walls.every(canGoLeft)){
-        //         // if (ghost.x - 5 === 0){
-        //         //     ghost.x = 560 - ghost.width + 5;
-        //         // }
-        //         let timeInSec = Math.floor((new Date() - timeInit)/1000);
-        //         console.log(timeInSec);
-        //         ghost.x -= timeInSec * 10; // doesn't work because ghost.x never equal to wall.x so the if statement is never false
-        //         requestAnimationFrame(move);
-        //     }
-        // }
-        // move();
-        // ghost.render(name);
-        
-        
-    // }
-    
 }

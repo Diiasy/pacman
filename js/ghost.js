@@ -6,9 +6,8 @@ class Ghost{
         this.height = 30;
         this.direction = 'N';
         this.createGhosts(name);
-    }
-    
-    
+        this.gameOver = new GameOver();
+    }    
 
     createGhosts(name){
         switch(name){
@@ -112,9 +111,13 @@ class Ghost{
                         let random = Math.floor(Math.random()*otherDirections.length);
                         let nextDirection = otherDirections[random];
                         fixThis.direction = nextDirection;
-                        console.log(fixThis.direction);
                         clearInterval(intervalW);
                         move();
+                    }
+                    // Check if the game is over
+                    fixThis.gameOver.gameOver();
+                    if (fixThis.gameOver.stopGame === true){
+                        clearInterval(intervalW);
                     }
                 },10);
             }else if (fixThis.direction === 'E'){
@@ -127,9 +130,13 @@ class Ghost{
                         let random = Math.floor(Math.random()*otherDirections.length);
                         let nextDirection = otherDirections[random];
                         fixThis.direction = nextDirection;
-                        console.log(fixThis.direction);
                         clearInterval(intervalE);
                         move();
+                    }
+                    // Check if the game is over
+                    fixThis.gameOver.gameOver();
+                    if (fixThis.gameOver.stopGame === true){
+                        clearInterval(intervalE);
                     }
                 },10);
             }else if (fixThis.direction === 'N'){
@@ -142,9 +149,13 @@ class Ghost{
                         let random = Math.floor(Math.random()*otherDirections.length);
                         let nextDirection = otherDirections[random];
                         fixThis.direction = nextDirection;
-                        console.log(fixThis.direction);
                         clearInterval(intervalN);
                         move();
+                    }
+                    // Check if the game is over
+                    fixThis.gameOver.gameOver();
+                    if (fixThis.gameOver.stopGame === true){
+                        clearInterval(intervalN);
                     }
                 },10);
             }else if (fixThis.direction === 'S'){
@@ -157,14 +168,19 @@ class Ghost{
                         let random = Math.floor(Math.random()*otherDirections.length);
                         let nextDirection = otherDirections[random];
                         fixThis.direction = nextDirection;
-                        console.log(fixThis.direction);
                         clearInterval(intervalS);
                         move();
+                    }
+                    // Check if the game is over
+                    fixThis.gameOver.gameOver();
+                    if (fixThis.gameOver.stopGame === true){
+                        clearInterval(intervalS);
                     }
                 },10);
             }
         }
         move();
     }
+
 
 }

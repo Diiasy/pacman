@@ -34,3 +34,36 @@
     left:0px;
     top: 20px;
 }
+
+.text{
+    font-size: 35px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 330px;
+}
+
+.welcome, .new-game{
+    width: 246px;
+    height: 50px;
+    color: white;
+    border: 2px solid rgb(18, 18, 184);
+    padding: 20px 5px;
+    background-color: rgba(0, 0, 0, 0.7);
+    font-size: 20px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-align: center;
+    position: absolute;
+    left: 150px;
+    top: 242px;
+    z-index: 10;
+}
+
+.ready{
+    color: yellow;
+}
+
+.game-over{
+    color: red;
+}
