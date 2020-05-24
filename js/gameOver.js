@@ -25,13 +25,13 @@ class GameOver{
         $gameboard.appendChild($gameOver);
         let $newGame = document.createElement('div');
         $newGame.classList.add('new-game');
-        $newGame.innerHTML = 'To start a new game, press Enter';
+        $newGame.innerHTML = 'Press Space to start again';
         $gameboard.appendChild($newGame);
         let die = new Sound("./audio/die.ogg");
         die.volume(0.8);
         die.play();
         document.addEventListener("keydown", function(event){
-            if(event.key === 'Enter'){
+            if(event.key === ' '){
                 document.location.reload(true);
             }
         });

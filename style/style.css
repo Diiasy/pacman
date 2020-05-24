@@ -67,3 +67,12 @@
 .game-over{
     color: red;
 }
+
+.copyright{
+    color: white;
+    font-size: 10px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    position: absolute;
+    left:0px;
+    top: 50px;
+}

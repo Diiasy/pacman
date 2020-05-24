@@ -306,6 +306,13 @@ class Game{
         }
     }
 
+    // copyright(){
+    //     let $copyright = document.createElement('div');
+    //     $copyright.classList.add('copyright');
+    //     $copyright.innerHTML = 'Copyright: https://github.com/Diiasy/pacman';
+    //     $gameboard.appendChild($copyright);
+    // }
+
     welcomeMessage(){
         let $welcome = document.createElement('div');
         $welcome.classList.add('welcome');
