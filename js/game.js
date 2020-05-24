@@ -21,6 +21,7 @@ class Game{
         this.pinky = new Ghost('pinky');
         this.inky = new Ghost('inky');
         this.clyde = new Ghost('clyde');
+        this.cherry = new Fruit('cherry');
     }
 
     start(){
@@ -37,24 +38,32 @@ class Game{
         $gameboard.appendChild($coins);
         this.createCoins();
         this.coins.forEach(coin => coin.createCoins());
+        this.score.createScore();
     }
 
     startPlay(){
         this.intro();
         setTimeout(()=>{
             this.movePacman();
-            this.score.createScore();
             //Movement of the ghosts 
             this.blinky.moveGhost('blinky');
             setTimeout(()=>{
                 this.pinky.moveGhost('pinky');
-            },1000);
+            },3000);
             setTimeout(()=>{
                 this.inky.moveGhost('inky');
-            },2000);
+            },6000);
             setTimeout(()=>{
                 this.clyde.moveGhost('clyde');
-            },3000);
+            },9000);
+            // setTimeout(()=>{
+                setInterval(()=>{
+                    this.cherry.addFruit();
+                },30000);
+            // }, 15000);
+            setInterval(()=>{
+                this.winGame();
+            },50);
             let sirenInterval = setInterval(()=>{
                 this.siren();
                 if (this.blinky.gameOver.stopGame === true || this.pinky.gameOver.stopGame === true || this.inky.gameOver.stopGame === true || this.clyde.gameOver.stopGame === true){
@@ -306,17 +315,10 @@ class Game{
         }
     }
 
-    // copyright(){
-    //     let $copyright = document.createElement('div');
-    //     $copyright.classList.add('copyright');
-    //     $copyright.innerHTML = 'Copyright: https://github.com/Diiasy/pacman';
-    //     $gameboard.appendChild($copyright);
-    // }
-
     welcomeMessage(){
         let $welcome = document.createElement('div');
         $welcome.classList.add('welcome');
-        $welcome.innerHTML = 'Welcome! </br> To start a game press Enter';
+        $welcome.innerHTML = 'Welcome! </br> Press Enter to start a game';
         $gameboard.appendChild($welcome);
     }
 
@@ -371,6 +373,7 @@ class Game{
                         }
                         fixThis.pacman.x -= 10;
                         fixThis.eatCoins();
+                        fixThis.eatFruit('cherry');
                     }
                     break;
                 case "ArrowRight":
@@ -382,6 +385,7 @@ class Game{
                         }
                         fixThis.pacman.x += 10;
                         fixThis.eatCoins();
+                        fixThis.eatFruit('cherry');
                     }
                     break;
                 case "ArrowUp":
@@ -390,6 +394,7 @@ class Game{
                     if (fixThis.walls.every(canGoUp)){
                         fixThis.pacman.y -= 10;
                         fixThis.eatCoins();
+                        fixThis.eatFruit('cherry');
                     }
                     break;  
                 case "ArrowDown":
@@ -398,6 +403,7 @@ class Game{
                     if (fixThis.walls.every(canGoDown)){
                         fixThis.pacman.y += 10;
                         fixThis.eatCoins();
+                        fixThis.eatFruit('cherry');
                     }
                     break;
                 default:
@@ -411,7 +417,7 @@ class Game{
         let $coins = document.querySelectorAll(".coin");
         let chomp = new Sound("./audio/eating.ogg");
         for (let i=0; i<this.coins.length; i++){
-            if(eatCoins(this.pacman, this.coins[i])){
+            if(eat(this.pacman, this.coins[i])){
                 $coins.item(i).remove();
                 this.coins.splice(i, 1);
                 // this.score is an object from the class Score. We are searching for the key score from this object
@@ -421,6 +427,38 @@ class Game{
                 this.score.render();
                 break;
             }
+        }
+    }
+
+    eatFruit(name){
+        let $fruit = document.querySelector(`.${name}`);
+        if ($fruit !== null){
+            let fruit = new Sound("./audio/fruit.mp3");
+            if(eatFruit(this.pacman, $fruit)){
+                // this.score is an object from the class Score. We are searching for the key score from this object
+                this.score.score += 100;
+                fruit.play();
+                this.score.render();
+                $fruit.remove();
+            }
+        }
+    }
+
+    winGame(){
+        if (this.coins.length === 0){
+            let $win = document.createElement('div');
+            $win.classList.add('text', 'win');
+            $win.innerHTML = 'YOU WIN!';
+            $gameboard.appendChild($win);
+            let $newGame = document.createElement('div');
+            $newGame.classList.add('new-game');
+            $newGame.innerHTML = 'Press Space to start again';
+            $gameboard.appendChild($newGame);
+            document.addEventListener("keydown", function(event){
+                if(event.key === ' '){
+                    document.location.reload(true);
+                }
+            });
         }
     }
 
